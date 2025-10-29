@@ -32,14 +32,8 @@ COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 # Copiar el projecte Laravel des del directori arrel
 COPY --from=base /var/www/html /var/www/html
 
-# Instal·lar PHP-FPM i altres dependències
+# Instal·lar PHP-FPM
 RUN apk add --no-cache php8-fpm
-
-# Copiar el fitxer d'entrada per iniciar PHP-FPM i Nginx
-COPY ./docker/entrypoint.sh /entrypoint.sh
-
-# Establir permisos d'execució per al fitxer d'entrada
-RUN chmod +x /entrypoint.sh
 
 # Exposar els ports per a PHP-FPM i Nginx
 EXPOSE 80 9000
