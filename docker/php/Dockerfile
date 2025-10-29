@@ -14,10 +14,10 @@ RUN set -eux; \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Configurar el directori de treball
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 # Copiar el projecte Laravel des del directori arrel
-COPY ../../.. /var/www
+COPY ../../.. /var/www/html
 
 # Usuari no root
 RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -D -u 1000 laravel
@@ -30,7 +30,7 @@ FROM nginx:alpine as final
 COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copiar la carpeta amb el codi del projecte Laravel
-COPY --from=base /var/www /var/www
+COPY --from=base /var/www/html /var/www/html
 
 # Exposar el port per a l'aplicació
 EXPOSE 80
