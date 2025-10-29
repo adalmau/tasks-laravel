@@ -45,4 +45,4 @@ RUN chmod +x /entrypoint.sh
 EXPOSE 80 9000
 
 # Comandar per executar PHP-FPM i Nginx
-CMD ["/entrypoint.sh"]
+CMD php-fpm & nginx -g 'daemon off;'
