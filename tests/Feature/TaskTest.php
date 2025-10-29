@@ -15,14 +15,14 @@ class TaskTest extends TestCase
         $this->get('/')->assertStatus(200)->assertSee('Llista de tasques');
     }
 
-    public function we_can_create_a_task()
+    public function test_we_can_create_a_task()
     {
         $response = $this->post('/tasks', ['title' => 'Provar CI']);
         $response->assertRedirect('/');
         $this->assertDatabaseHas('tasks', ['title' => 'Provar CI', 'done' => false]);
     }
 
-    public function we_can_toggle_a_task()
+    public function test_we_can_toggle_a_task()
     {
         $task = Task::create(['title' => 'Tasca', 'done' => false]);
 
