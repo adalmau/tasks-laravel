@@ -29,11 +29,20 @@ FROM nginx:alpine as final
 # Copiar fitxers de configuració de Nginx
 COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Copiar la carpeta amb el codi del projecte Laravel
+# Copiar el projecte Laravel des del directori arrel
 COPY --from=base /var/www/html /var/www/html
 
-# Exposar el port per a l'aplicació
-EXPOSE 80
+# Instal·lar PHP-FPM i altres dependències
+RUN apk add --no-cache php8-fpm
 
-# Comandar per executar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Copiar el fitxer d'entrada per iniciar PHP-FPM i Nginx
+COPY ./docker/entrypoint.sh /entrypoint.sh
+
+# Establir permisos d'execució per al fitxer d'entrada
+RUN chmod +x /entrypoint.sh
+
+# Exposar els ports per a PHP-FPM i Nginx
+EXPOSE 80 9000
+
+# Comandar per executar PHP-FPM i Nginx
+CMD ["/entrypoint.sh"]
