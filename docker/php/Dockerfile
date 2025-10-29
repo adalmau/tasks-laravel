@@ -1,4 +1,4 @@
-# Fase 1: Crear la imatge base amb PHP i les extensions necessàries per Laravel
+# Fase 1: Usar PHP-FPM com a base
 FROM php:8.2-fpm-alpine as base
 
 # Paquets i extensions PHP necessàries per Laravel + SQLite
@@ -23,8 +23,11 @@ COPY ../../.. /var/www/html
 RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -D -u 1000 laravel
 USER laravel
 
-# Fase 2: Configurar Nginx
-FROM nginx:alpine as final
+# Fase 2: Afegir Nginx
+FROM php:8.2-fpm-alpine as final
+
+# Instal·lar Nginx
+RUN apk add --no-cache nginx
 
 # Copiar fitxers de configuració de Nginx
 COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
