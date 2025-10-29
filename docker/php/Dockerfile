@@ -29,7 +29,7 @@ FROM nginx:alpine as final
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copiar la carpeta amb el codi del projecte Laravel
-COPY --from=base /var/www /var/www
+COPY --from=base /var/www/html /var/www/html
 
 # Exposar el port per a l'aplicació
 EXPOSE 80
