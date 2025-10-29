@@ -27,7 +27,7 @@ USER laravel
 FROM nginx:alpine as final
 
 # Copiar fitxers de configuració de Nginx
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copiar la carpeta amb el codi del projecte Laravel
 COPY --from=base /var/www /var/www
