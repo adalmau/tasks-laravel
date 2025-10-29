@@ -32,9 +32,6 @@ COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 # Copiar el projecte Laravel des del directori arrel
 COPY --from=base /var/www/html /var/www/html
 
-# Instal·lar PHP-FPM
-RUN apk add --no-cache php8-fpm
-
 # Exposar els ports per a PHP-FPM i Nginx
 EXPOSE 80 9000
 
