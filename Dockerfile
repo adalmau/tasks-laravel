@@ -4,7 +4,7 @@ FROM php:8.2-fpm-alpine
 # Instal·lar dependències necessàries
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev sqlite-dev oniguruma-dev libzip-dev; \
-    apk add --no-cache icu sqlite-libs git unzip bash libpng-dev libjpeg-turbo-dev libfreetype6-dev libxml2-dev zip; \
+    apk add --no-cache icu sqlite-libs git unzip bash libpng-dev libjpeg-turbo-dev freetype-dev libxml2-dev zip; \
     # Instal·lar les extensions de PHP
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install gd pdo pdo_mysql xml intl opcache && \
@@ -12,7 +12,7 @@ RUN set -eux; \
     docker-php-ext-install pdo_sqlite bcmath intl mbstring && \
     docker-php-ext-enable opcache && \
     # Eliminar dependències de compilació
-    apk del .build-deps icu-dev libxml2-dev libpng-dev libjpeg-turbo-dev libfreetype6-dev
+    apk del .build-deps icu-dev libxml2-dev libpng-dev libjpeg-turbo-dev freetype-dev
 
 # Instal·lar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
