@@ -10,7 +10,6 @@ RUN set -eux; \
     docker-php-ext-install gd pdo pdo_mysql xml intl opcache && \
     docker-php-ext-configure intl && \
     docker-php-ext-install pdo_sqlite bcmath intl mbstring && \
-    docker-php-ext-enable opcache && \
     # Eliminar dependències de compilació
     apk del .build-deps icu-dev libxml2-dev libpng-dev libjpeg-turbo-dev freetype-dev
 
