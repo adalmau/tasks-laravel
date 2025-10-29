@@ -34,11 +34,6 @@ RUN composer require laravel/octane spiral/roadrunner
 # Crear els directoris necessaris per Laravel
 RUN mkdir -p /app/storage/logs
 
-# Netegem la configuració de la caché de Laravel
-RUN php artisan cache:clear && \
-    php artisan view:clear && \
-    php artisan config:clear
-
 # Instal·lar Octane (s'assegura que estigui configurat correctament)
 RUN php artisan octane:install --server="swoole"
 
