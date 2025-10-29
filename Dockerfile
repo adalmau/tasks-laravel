@@ -1,8 +1,11 @@
 # Utilitzar la imatge oficial de PHP amb Alpine
-FROM php:8.1-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 # Instal·lar dependències necessàries
-RUN apk add --no-cache \
+RUN set -eux; \
+    apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev sqlite-dev oniguruma-dev libzip-dev; \
+    apk add --no-cache icu sqlite-libs git unzip; \
+    apk add --no-cache \
     bash \
     git \
     libpng-dev \
@@ -13,6 +16,9 @@ RUN apk add --no-cache \
     zip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql xml intl opcache \
+    && docker-php-ext-configure intl; \
+    && docker-php-ext-install -j"$(nproc)" pdo_sqlite bcmath intl mbstring; \
+    && docker-php-ext-enable opcache; \
     && apk del icu-dev libxml2-dev libpng-dev libjpeg-turbo-dev libfreetype6-dev
 
 # Instal·lar Composer
