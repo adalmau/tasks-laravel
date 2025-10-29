@@ -1,5 +1,5 @@
 # docker/php/Dockerfile
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm-alpine as base
 
 # Paquets + extensions PHP necessàries per Laravel + SQLite
 RUN set -eux; \
