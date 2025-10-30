@@ -22,5 +22,10 @@ WORKDIR /var/www/html
 RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -D -u 1000 laravel
 USER laravel
 
+# Assignar permisos adequats a les carpetes 'storage' i 'bootstrap/cache'
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chown -R laravel:laravel /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Instal·lem les dependències de PHP amb Composer
 RUN composer install --no-dev --optimize-autoloader
