@@ -49,6 +49,15 @@ WORKDIR /var/www/html
 # Excloem fitxers que no són necessaris (e.g., .git, dockerfiles, etc.) si no useu .dockerignore
 COPY --from=composer_builder /app /var/www/html
 
+# Ajustem permisos i generem la clau de l'aplicació
+# Mantenim l'usuari ROOT temporalment per als permisos i la generació
+RUN if [ ! -f .env ]; then echo "APP_ENV=production" > .env; fi \
+    && php artisan key:generate \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache \
+    && php artisan migrate --force;
+
 # Ajustem permisos per a Laravel (storage, bootstrap/cache)
 # Això suposa que l'usuari 'laravel' té UID 1000
 RUN chown -R www-data:www-data /var/www/html \
