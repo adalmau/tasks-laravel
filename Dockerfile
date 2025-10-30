@@ -23,4 +23,4 @@ RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -D -u 1000 laravel
 USER laravel
 
 # Instal·lem les dependències de PHP amb Composer
-RUN composer install --no-dev --optimize-autoloader
+#RUN composer install --no-dev --optimize-autoloader
