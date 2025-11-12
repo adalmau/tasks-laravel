@@ -49,7 +49,7 @@ COPY --from=composer_builder /app /var/www/html
 
 # Ajustem permisos i generem la clau de l'aplicació
 # Mantenim l'usuari ROOT temporalment per als permisos i la generació
-RUN if [ ! -f .env ]; then echo "APP_ENV=production" > .env; fi \
+RUN if [ ! -f .env ]; then cp .env.example .env; fi \
     && php artisan key:generate \
     && php artisan config:cache \
     && php artisan route:cache \
