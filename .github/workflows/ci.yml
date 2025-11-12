@@ -40,6 +40,7 @@ jobs:
         run: php artisan test --no-coverage
   build:
     runs-on: ubuntu-latest
+    needs: tests  # Això fa que el job 'build' depengui del job 'tests'
 
     steps:
       - name: Checkout 
