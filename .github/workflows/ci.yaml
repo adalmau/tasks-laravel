@@ -1,0 +1,65 @@
+name: CI/CD (Laravel)
+
+on:
+  push:
+    branches:
+      - alfa
+
+permissions:
+  contents: write   # necessari per poder fer push a main
+
+jobs:
+  test-and-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, pdo_sqlite
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          touch database/database.sqlite
+          php artisan migrate --force
+
+      - name: Run tests
+        run: php artisan test --no-coverage
+        
+      - name: Configurar git
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "ci-bot@example.com"
+          # Això són dades inventades per donar a entendre que qui intenta fer el merge és el bot de Github Actions
+
+      - name: Merge alfa -> main i push
+        if: success()
+        run: |
+          git fetch origin main
+          git fetch origin alfa
+
+          git checkout main
+          git merge --no-ff origin/alfa -m "chore: auto-merge alfa into main (CI)"
+
+          git push origin main
+  
+  
