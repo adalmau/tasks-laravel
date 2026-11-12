@@ -5,7 +5,7 @@
   <title>Task Demo</title>
   <!-- Per simplicitat, style mínim inline -->
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; }
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; background-color: red;}
     form { margin: 1rem 0; display: flex; gap: .5rem; }
     input[type=text]{ flex:1; padding:.5rem; }
     button { padding:.5rem 1rem; }
